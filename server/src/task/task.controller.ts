@@ -7,7 +7,8 @@ export class TaskController {
     constructor(private readonly taskService: TaskService) {}
 
     @Post()
-    async createTask(  @Param('projectId') projectId: string,
+    async createTask(
+    @Param('projectId') projectId: string,
     @Body() createTaskDto: CreateTaskDto) {
     try {
         const createdTask = await this.taskService.createTask(parseInt(projectId), createTaskDto); 

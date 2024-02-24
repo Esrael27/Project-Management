@@ -27,20 +27,7 @@ model TeamMember {
 }
 
 // Define the UserRole enum
-enum UserRole {
-  ADMIN   // Admin role
-  MEMBER  // Member role
-}
 
-
-// Define the ProjectStatus enum
-enum ProjectStatus {
-  PLANNED        // Project is planned but not started
-  IN_PROGRESS    // Project is currently in progress
-  COMPLETED      // Project has been completed
-  ON_HOLD        // Project is temporarily on hold
-  CANCELLED      // Project has been cancelled
-}
 // Define the Project model
 model Project {
   id            Int             @id @default(autoincrement()) // Unique identifier for the project
@@ -52,6 +39,7 @@ model Project {
   createdAt     DateTime        @default(now()) // Timestamp for when the project was created
   updatedAt     DateTime        @updatedAt // Timestamp for when the project was last updated
   tasks         Task[]          // Tasks associated with this project
+  issues      Issue[]  
 }
 
 // Define the Task model
@@ -67,7 +55,27 @@ model Task {
   assignedToId  Int?            // Foreign key referencing the assigned user
   project       Project         @relation(fields: [projectId], references: [id]) // Project to which the task belongs
   projectId     Int             // Foreign key referencing the associated project
-  issues      Issue[]  
+  // issues      Issue[]  
+}
+
+// Define the Issue model
+model Issue {
+  id            Int             @id @default(autoincrement()) // Unique identifier for the issue
+  title         String          @db.VarChar(255) // Title of the issue
+  description   String?         @db.VarChar(255) // Description of the issue (optional)
+  status        IssueStatus   @default(OPEN) // Status of the issue (default: Planned)
+  createdAt     DateTime        @default(now()) // Date and time when the issue was created
+  project       Project         @relation(fields: [projectId], references: [id]) // Project to which the issue belongs
+  projectId     Int             // Foreign key referencing the associated project
+  // task          Task            @relation(fields: [taskId], references: [id]) // Task to which the issue belongs
+  // taskId        Int             // Foreign key referencing the associated task
+}
+// Define the IssueStatus enum
+enum IssueStatus {
+  OPEN         // Issue is open
+  IN_PROGRESS  // Issue is in progress
+  RESOLVED     // Issue has been resolved
+  CLOSED       // Issue is closed
 }
 
 // Define the TaskStatus enum
@@ -87,24 +95,17 @@ enum TaskPriority {
   URGENT  // Urgent priority task
 }
 
-// Define the Issue model/entity
-model Issue {
-  id          Int      @id @default(autoincrement()) // Unique identifier for the issue
-  title       String   @db.VarChar(255)// Title of the issue
-  description String?  @db.VarChar(255)// Description of the issue (optional)
-  status      IssueStatus @default(OPEN) // Status of the issue (default: OPEN)
-  createdAt   DateTime @default(now()) // Date and time when the issue was created
-  task        Task     @relation(fields: [taskId], references: [id]) // Task to which the issue belongs
-  taskId      Int      // Foreign key referencing the associated task
-}
-// Define the IssueStatus enum
-enum IssueStatus {
-  OPEN         // Issue is open
-  IN_PROGRESS  // Issue is in progress
-  RESOLVED     // Issue has been resolved
-  CLOSED       // Issue is closed
+enum UserRole {
+  ADMIN   // Admin role
+  MEMBER  // Member role
 }
 
 
-
-
+// Define the ProjectStatus enum
+enum ProjectStatus {
+  PLANNED        // Project is planned but not started
+  IN_PROGRESS    // Project is currently in progress
+  COMPLETED      // Project has been completed
+  ON_HOLD        // Project is temporarily on hold
+  CANCELLED      // Project has been cancelled
+}
