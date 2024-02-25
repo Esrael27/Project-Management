@@ -34,9 +34,9 @@ model Project {
   name          String          @db.VarChar(255)// Name of the project
   description   String?         @db.VarChar(255)// Optional description of the project
   startDate     DateTime        @default(now())// Start date of the project
-  status        ProjectStatus   @default(  PLANNED )// Status of the project
+  status        ProjectStatus   @default(PLANNED)// Status of the project
+  deadline      DateTime?  
   progress     Int             @default(0)
-  createdAt     DateTime        @default(now()) // Timestamp for when the project was created
   updatedAt     DateTime        @updatedAt // Timestamp for when the project was last updated
   tasks         Task[]          // Tasks associated with this project
   issues      Issue[]  
@@ -47,15 +47,16 @@ model Task {
   id            Int             @id @default(autoincrement()) // Unique identifier for the task
   title         String          @db.VarChar(255) // Title of the task
   description   String?         @db.VarChar(255)// Description of the task (optional)
+  startDate     DateTime        @default(now())// Start date of the task
   status        TaskStatus      @default(PLANNED) // Status of the task (default: Planned)
+  deadline      DateTime?  
   priority      TaskPriority    // Priority of the task
-  progress     Int              @default(0)
+  progress      Int              @default(0)
   createdAt     DateTime        @default(now()) // Date and time when the task was created
   assignedTo    TeamMember?     @relation("AssignedTo", fields: [assignedToId], references: [id]) // User to whom the task is assigned (optional)
   assignedToId  Int?            // Foreign key referencing the assigned user
   project       Project         @relation(fields: [projectId], references: [id]) // Project to which the task belongs
   projectId     Int             // Foreign key referencing the associated project
-  // issues      Issue[]  
 }
 
 // Define the Issue model
@@ -67,9 +68,9 @@ model Issue {
   createdAt     DateTime        @default(now()) // Date and time when the issue was created
   project       Project         @relation(fields: [projectId], references: [id]) // Project to which the issue belongs
   projectId     Int             // Foreign key referencing the associated project
-  // task          Task            @relation(fields: [taskId], references: [id]) // Task to which the issue belongs
-  // taskId        Int             // Foreign key referencing the associated task
+
 }
+
 // Define the IssueStatus enum
 enum IssueStatus {
   OPEN         // Issue is open
