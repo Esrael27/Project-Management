@@ -63,8 +63,7 @@ export class IssueService {
         throw new NotFoundException('Failed to update Issue'); // Throw 404 if failed to update task
     }
    }
-
-     
+   
   // Retrieve a task by its ID
   async getIssueById(id: number) {
     try {

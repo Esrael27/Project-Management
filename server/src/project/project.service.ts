@@ -45,7 +45,7 @@ export class ProjectService{
       });
     } catch (error) {
       console.error(error.message);
-      throw new NotFoundException('Failed to set deadline for project');
+      throw new NotFoundException('set deadline for project');
     }
   }
   

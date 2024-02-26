@@ -4,6 +4,7 @@ import { AddProjectDto } from './Dto/Add-project.dto';
 import { UpdateProjectProgressDtoType } from './Dto/update-project-progress.dto';
 import { SetSetDeadlineDto } from './Dto/set-deadline.dto';
 @Controller('/api/projects')
+ 
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
@@ -13,13 +14,13 @@ export class ProjectController {
   ) {
     try {
       // Call the service to create a new project with the provided data
-      const createdProject = await this.projectService.createProject(addProjectDto);
+      await this.projectService.createProject(addProjectDto);
      
       // Return a JSON response with the created project data
       return {
         success: true,
         message: 'Project created successfully',
-        data: createdProject,
+       
       };
     } catch (error) {
       // Log any errors that occur during the process
@@ -35,40 +36,59 @@ export class ProjectController {
     }
   }
 
+  // Endpoint for updating task progress, accepts taskId in the route parameter
   @Put(':id/progress')
   async updateTaskProgress(
-    @Param('id') taskId: string,
-    @Body() updateProjectProgressDto: UpdateProjectProgressDtoType,
+     // Extracts taskId from route parameter
+    @Param('id') taskId: string, 
+    // Extracts project progress data from request body
+    @Body() updateProjectProgressDto: UpdateProjectProgressDtoType,  
   ) {
     try {
-      return await this.projectService.updateProjectProgress(parseInt(taskId), updateProjectProgressDto.progress);
+         // Calls project service to update project progress with taskId and progress data
+      return await this.projectService.updateProjectProgress(parseInt(taskId), updateProjectProgressDto.progress); 
+    
     } catch (error) {
-      console.error(error.message);
-      throw new NotFoundException('Failed to update project progress');
-    }
-  }
+       // Log any errors to the console
+      console.error(error.message); 
 
-  @Put(':projectId/deadline')
-  async setTaskDeadline(
-    @Param('projectId') projectId: string,
-    @Body() setDeadlineDto: SetSetDeadlineDto,
-  ) {
-    try {
-      await this.projectService.setProjectDeadline(parseInt(projectId), setDeadlineDto.deadline);
-      return {
-         success: true,
-         message:'Deadline set successfully'
-         };
-    } catch (error) {
-      console.error(error.message);
-      throw new NotFoundException('Failed to set deadline for project');
+      // Throws a NotFoundException with a descriptive message if an error occurs
+      throw new NotFoundException('Failed to update project progress');  
     }
   }
+  
+
+// Endpoint to set the deadline for a project
+@Put(':projectId/deadline')
+async setTaskDeadline(
+  // Extract projectId from the route parameter
+  @Param('projectId') projectId: string,
+  // Extract deadline data from the request body
+  @Body() setDeadlineDto: SetSetDeadlineDto,
+) {
+  try {
+    // Call the project service to set the project deadline
+    await this.projectService.setProjectDeadline(parseInt(projectId), setDeadlineDto.deadline);
+    
+    // Return a success response
+     return {
+      success: true,
+      message: 'Deadline set successfully'
+       };
+  } catch (error) {
+    // Log any errors and throw an exception if setting the deadline fails
+    console.error(error.message);
+    throw new NotFoundException('Failed to set the deadline for the project');
+  }
+}
+
+  
   
   @Get() // Decorator for GET endpoint
   async getAllProjects() {
     try {
-      const projects = await this.projectService.getAllProjects(); // Call service to get all projects
+      // Call service to get all projects
+      const projects = await this.projectService.getAllProjects(); 
       return {
         success: true,
         data: projects,
@@ -82,7 +102,8 @@ export class ProjectController {
   @Get(':id') // Decorator for GET endpoint with parameter
   async getProjectById(@Param('id') projectId: string) {
     try {
-      const project = await this.projectService.getProjectById(parseInt(projectId)); // Call service to get project by ID
+      // Call service to get project by ID
+      const project = await this.projectService.getProjectById(parseInt(projectId)); 
       return {
         success: true,
         data: project,

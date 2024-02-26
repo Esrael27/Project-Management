@@ -71,6 +71,7 @@ export class MemberService {
         }
     }
 
+    
     async getMemberById(id: number) {
         try {
             // Retrieve the member by ID from the database

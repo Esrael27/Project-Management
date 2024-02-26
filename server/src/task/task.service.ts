@@ -8,15 +8,6 @@ export class TaskService {
 
     async createTask(projectId: number,createTaskDto: CreateTaskDto) {
       try {
-            // Check if the project exists
-      const project = await this.prismaService.project.findUnique({
-        where: { id: projectId },
-      });
-      
-      if (!project) {
-        throw new NotFoundException('Project not found');
-      }
-
       // Create the task within the project
       return this.prismaService.task.create({
         data: {
@@ -28,7 +19,8 @@ export class TaskService {
         },
       });
       } catch (error) {
-        
+        console.error(error.message);
+        throw new NotFoundException('Failed to create task ');
       }
     }
 
@@ -87,7 +79,7 @@ export class TaskService {
     }
 
       // Retrieve all tasks assigned to a project
-      async getAllTasks(projectId: number) {
+   async getAllTasks(projectId: number) {
         try {
             // Find all tasks belonging to the specified project
             const tasks = await this.prismaService.task.findMany({
@@ -98,7 +90,7 @@ export class TaskService {
             console.error(error.message); // Log error
             throw new NotFoundException('Failed to fetch tasks'); // Throw 404 if failed to fetch tasks
         }
-       }
+    }
   
      // Update a task by its ID
      async updateTask(taskId: number, updateTaskDto: any) {
