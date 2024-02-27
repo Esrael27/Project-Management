@@ -8,7 +8,7 @@ export class MemberController {
     constructor(private readonly memberService: MemberService) {}
 
     @Post() // Decorator for POST endpoint
-    async createProject(
+    async createMember(
       @Body(new ValidationPipe()) addMemberDto: AddMemberDto,
     ) {
       try {

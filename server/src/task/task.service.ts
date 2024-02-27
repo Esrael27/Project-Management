@@ -4,7 +4,10 @@ import { CreateTaskDto } from './Dto/create-task.dto';
 
 @Injectable()
 export class TaskService {
-    constructor(private readonly prismaService: PrismaService) {}
+    constructor(
+      private readonly prismaService: PrismaService,
+  
+      ) {}
 
     async createTask(projectId: number,createTaskDto: CreateTaskDto) {
       try {
@@ -51,6 +54,7 @@ export class TaskService {
       throw new NotFoundException('Team member not found');
     }
 
+   
     // Update the assignedToId field of the task in the database
     await this.prismaService.task.update({
       where: { id: taskId },

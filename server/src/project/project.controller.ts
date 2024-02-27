@@ -1,14 +1,16 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UseGuards, ValidationPipe } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { AddProjectDto } from './Dto/Add-project.dto';
 import { UpdateProjectProgressDtoType } from './Dto/update-project-progress.dto';
 import { SetSetDeadlineDto } from './Dto/set-deadline.dto';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 @Controller('/api/projects')
  
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
-  @Post() // Decorator for POST endpoint
+  @Post()
+  @UseGuards(RolesGuard) // Decorator for POST endpoint
   async createProject(
     @Body(new ValidationPipe()) addProjectDto: AddProjectDto,
   ) {

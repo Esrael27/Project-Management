@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 export class MemberService {
     constructor(private readonly prismaService: PrismaService) {}
 
+ 
     async createMember(addMemberDto: AddMemberDto) {
         try {
             // Check if the username already exists
@@ -57,7 +58,6 @@ export class MemberService {
             }
         }
     }
-
 
     async getAllMembers() {
         try {

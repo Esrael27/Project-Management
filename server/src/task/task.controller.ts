@@ -60,6 +60,12 @@ export class TaskController {
     // Call task service to assign the task to the team member
     await this.taskService.assignTaskToTeamMember(parseInt(taskId), parseInt(teamMemberId));
     
+     // Emit a notification to the assigned team member
+     const payload = {
+      taskId: parseInt(taskId),
+      message: 'You have been assigned a new task.',
+    };
+  
     // Return a success response
     return { success: true, message: 'Task assigned successfully' };
   } catch (error) {
