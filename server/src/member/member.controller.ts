@@ -13,13 +13,13 @@ export class MemberController {
     ) {
       try {
         // Call the service to create a new project with the provided data
-        const createdProject = await this.memberService.createMember(addMemberDto);
+         await this.memberService.createMember(addMemberDto);
        
         // Return a JSON response with the created project data
         return {
           success: true,
           message: 'Members are created successfully',
-          data: createdProject,
+         
         };
       } catch (error) {
         // Log any errors that occur during the process

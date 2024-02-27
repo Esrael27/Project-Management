@@ -1,9 +1,17 @@
+import ProjectForm from "@/components/projects/ProjectForm";
+import ProjectList from "@/components/projects/ProjectList";
 
 
-const page = () => {
+
+const HomePage: React.FC = () => {
+
   return (
-    <div>page</div>
-  )
-}
+    <div>
+      <h1>Home Page</h1>
+         <ProjectForm/>
+         <ProjectList />
+    </div>
+  );
+};
 
-export default page
+export default HomePage;

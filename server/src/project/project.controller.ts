@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put,  ValidationPipe } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { AddProjectDto } from './Dto/Add-project.dto';
 import { UpdateProjectProgressDtoType } from './Dto/update-project-progress.dto';
@@ -10,7 +10,7 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
-  @UseGuards(RolesGuard) // Decorator for POST endpoint
+// Decorator for POST endpoint
   async createProject(
     @Body(new ValidationPipe()) addProjectDto: AddProjectDto,
   ) {
@@ -55,7 +55,7 @@ export class ProjectController {
       console.error(error.message); 
 
       // Throws a NotFoundException with a descriptive message if an error occurs
-      throw new NotFoundException('Failed to update project progress');  
+      throw new NotFoundException('project not found');  
     }
   }
   
@@ -80,7 +80,7 @@ async setTaskDeadline(
   } catch (error) {
     // Log any errors and throw an exception if setting the deadline fails
     console.error(error.message);
-    throw new NotFoundException('Failed to set the deadline for the project');
+    throw new NotFoundException('project not found');
   }
 }
 

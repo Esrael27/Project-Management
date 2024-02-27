@@ -3,12 +3,17 @@ import { TaskService } from './task.service';
 import { CreateTaskDto } from './Dto/create-task.dto';
 import { UpdateTaskProgressDtoType } from './Dto/update-task-progress.dto';
 import { SetSetDeadlineDto } from './Dto/set-deadline.dto';
+import { NotificationGateway } from 'src/notification/notification.gateway';
 
 @Controller('api/projects/:projectId/tasks')
 
 export class TaskController {
 
-    constructor(private readonly taskService: TaskService) {}
+    constructor(
+      private readonly taskService: TaskService,
+      // private readonly notificationGateway: NotificationGateway,
+    )
+      {}
 
     @Post()
     async createTask(
@@ -17,13 +22,13 @@ export class TaskController {
     ) {
       try {
         // Call task service to create a new task within the specified project
-        const createdTask = await this.taskService.createTask(parseInt(projectId), createTaskDto); 
+        await this.taskService.createTask(parseInt(projectId), createTaskDto); 
     
         // Return a JSON response with the created task data
         return {
           success: true,
           message: 'Task created successfully',
-          data: createdTask,
+         
         };
       } catch (error) {
         // Log any errors to the console
@@ -50,6 +55,8 @@ export class TaskController {
     throw new NotFoundException('Failed to update task progress');
   }
     }
+
+
 // Endpoint to assign a task to a team member
      @Post(':taskId/assign/:teamMemberId')
      async assignTaskToTeamMember(
@@ -59,12 +66,10 @@ export class TaskController {
   try {
     // Call task service to assign the task to the team member
     await this.taskService.assignTaskToTeamMember(parseInt(taskId), parseInt(teamMemberId));
-    
-     // Emit a notification to the assigned team member
-     const payload = {
-      taskId: parseInt(taskId),
-      message: 'You have been assigned a new task.',
-    };
+ 
+    // Emit a notification to the assigned team member
+    const message = 'You have been assigned a new task.';
+    // this.notificationGateway.sendNotificationToUser(teamMemberId, message);
   
     // Return a success response
     return { success: true, message: 'Task assigned successfully' };
