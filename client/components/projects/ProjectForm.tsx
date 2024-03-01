@@ -2,7 +2,8 @@
 "use client"
 import { useState } from 'react';
 import { Form, Input, Button } from 'antd';
-import { createProject } from '../../service/projectService';
+import { createProject } from '../../app/api/projectService';
+import Link from 'next/link';
 
 const ProjectForm = () => {
   const [form] = Form.useForm();
@@ -42,6 +43,7 @@ const ProjectForm = () => {
         <Button type="primary" htmlType="submit" loading={loading}>
           Create Project
         </Button>
+        <Link href="/projects">Back</Link>
       </Form.Item>
     </Form>
   );

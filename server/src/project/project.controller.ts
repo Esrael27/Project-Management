@@ -3,7 +3,7 @@ import { ProjectService } from './project.service';
 import { AddProjectDto } from './Dto/Add-project.dto';
 import { UpdateProjectProgressDtoType } from './Dto/update-project-progress.dto';
 import { SetSetDeadlineDto } from './Dto/set-deadline.dto';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+
 @Controller('/api/projects')
  
 export class ProjectController {

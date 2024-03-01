@@ -1,8 +1,8 @@
 
 "use client"
-import { getAllProjects } from '@/service/projectService';
+
+import { getAllProjects } from '@/app/api/projectService';
 import React, { useEffect, useState } from 'react';
-import { date } from 'zod';
 
 interface Project {
   id: number;

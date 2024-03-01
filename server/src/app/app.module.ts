@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AuthModule } from 'src/auth/auth.module';
 import { IssueModule } from 'src/issue/issue.module';
 import { MemberModule } from 'src/member/member.module';
 import { NotificationGateway } from 'src/notification/notification.gateway';
@@ -14,6 +15,7 @@ import { TaskModule } from 'src/task/task.module';
     ProjectModule,
     TaskModule,
     IssueModule,
+    AuthModule,
     NotificationModule
   ],
   providers: [
