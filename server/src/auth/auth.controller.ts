@@ -25,7 +25,7 @@ export class AuthController {
       // Fixed message template string
       const message = role === 'ADMIN' ? `Welcome admin ${username}` : `Welcome ${username}`;
 
-      res.status(HttpStatus.OK).json({ success: true, message });
+      res.status(HttpStatus.OK).json({ success: true, message,role });
       console.log(message)
     } catch (error) {
       if (error instanceof UnauthorizedException) {
